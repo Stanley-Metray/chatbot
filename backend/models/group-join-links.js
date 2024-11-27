@@ -1,14 +1,17 @@
-const { DataTypes } = require('sequelize');
-const sequelize = require('../connection/connect');
+const mongoose = require('mongoose');
 
-module.exports = JoinLink = sequelize.define('join_link', {
-    id : {
-        type : DataTypes.STRING,
-        allowNull : false,
-        primaryKey : true
+const joinLinkSchema = new mongoose.Schema({
+    chatId: {
+        type: String,
+        required: true,
+        unique: true
     },
-    link : {
-        type : DataTypes.STRING,
-        allowNull : false
+    link: {
+        type: String,
+        required: true
     }
-}); 
+}, { timestamps: true });
+
+const JoinLink = mongoose.model('JoinLink', joinLinkSchema);
+
+module.exports = JoinLink;

@@ -1,27 +1,24 @@
-const { DataTypes } = require('sequelize');
-const sequelize = require('../connection/connect');
+const mongoose = require('mongoose');
 
-module.exports = GroupMembers = sequelize.define('group_members', {
-    id : {
-        type : DataTypes.INTEGER,
-        allowNull : false,
-        autoIncrement : true,
-        primaryKey : true
+const groupMembersSchema = new mongoose.Schema({
+    userName: {
+        type: String,
+        required: true
     },
-    user_name : {
-        type : DataTypes.STRING,
-        allowNull : false
+    userId: {
+        type: String,
+        required: true
     },
-    userId : {
-        type : DataTypes.INTEGER,
-        allowNull : false
+    chatId: {
+        type: String,
+        required: true
     },
-    chatId : {
-        type : DataTypes.STRING,
-        allowNull : false
-    },
-    isAdmin : {
-        type : DataTypes.BOOLEAN,
-        defaultValue : false
+    isAdmin: {
+        type: Boolean,
+        default: false
     }
-});
+}, { timestamps: true });
+
+const GroupMembers = mongoose.model('GroupMembers', groupMembersSchema);
+
+module.exports = GroupMembers;

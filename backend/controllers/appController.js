@@ -9,3 +9,4 @@ module.exports.getHomePage = (req, res)=>{
 module.exports.getErrorPage = (req,res)=>{
     res.status(200).sendFile(path.join(filePath+'authError.html'));
 }
+

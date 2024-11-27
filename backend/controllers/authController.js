@@ -25,3 +25,16 @@ module.exports.verifyToken = (req, res, next) => {
         next();
     });
 }
+
+module.exports.verifyTokenForSocket = async (token) => {
+    if (!token)
+        return null;
+
+    return jwt.verify(token, process.env.JWT_SECRETE_KEY, (err, decoded) => {
+        if (err) {
+            console.log(err);
+            return null;
+        }
+        return userId = decoded.id;
+    });
+}

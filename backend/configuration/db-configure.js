@@ -1,20 +1,39 @@
-const sequelize = require('../connection/connect');
-const User = require('../models/user');
+const mongoose = require('mongoose');
 const Message = require('../models/message');
 const Chat = require('../models/chat');
 const JoinLink = require('../models/group-join-links');
 
 module.exports.config = () => {
-    User.hasMany(Chat, {onDelete : 'CASCADE'});
-    Chat.belongsTo(User);
+    // User and Chat Relationship
+    Chat.schema.add({
+        userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true }
+    });
 
-    Chat.hasMany(Message, {onDelete : 'CASCADE'});
-    Message.belongsTo(Chat);
+    // Chat and Message Relationship
+    Message.schema.add({
+        chatId: { type: mongoose.Schema.Types.ObjectId, ref: 'Chat', required: true }
+    });
 
-    Chat.hasOne(JoinLink, {onDelete : 'CASCADE'});
-    JoinLink.belongsTo(Chat);
+    // Chat and JoinLink Relationship
+    JoinLink.schema.add({
+        chatId: { type: mongoose.Schema.Types.ObjectId, ref: 'Chat', required: true }
+    });
 
-    User.hasMany(Message, {onDelete:'CASCADE'});
-    Message.belongsTo(User);
-}
+    // User and Message Relationship
+    Message.schema.add({
+        userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true }
+    });
 
+    // Optional: Middleware for Cascading Deletes
+    // Chat.pre('remove', async function (next) {
+    //     await Message.deleteMany({ chatId: this._id });
+    //     await JoinLink.deleteOne({ chatId: this._id });
+    //     next();
+    // });
+
+    // User.pre('remove', async function (next) {
+    //     await Chat.deleteMany({ userId: this._id });
+    //     await Message.deleteMany({ userId: this._id });
+    //     next();
+    // });
+};

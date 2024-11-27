@@ -1,33 +1,29 @@
-const { DataTypes } = require('sequelize');
-const sequelize = require('../connection/connect');
+const mongoose = require('mongoose');
 
-module.exports = Chat = sequelize.define('chat', {
-    id : {
-        type : DataTypes.STRING,
-        allowNull : false,
-        primaryKey : true,
-        unique : true
+const chatSchema = new mongoose.Schema({
+    isGroup: {
+        type: Boolean,
+        default: false,
+        required: true
     },
-    isGroup : {
-        type : DataTypes.BOOLEAN,
-        defaultValue : false,
-        allowNull : false
+    groupName: { 
+        type: String,
+        default: null
     },
-    group_name : {
-        type : DataTypes.STRING,
-        allowNull : true
+    groupDescription: { 
+        type: String,
+        default: null
     },
-    group_description : {
-        type : DataTypes.STRING,
-        allowNull : true
+    totalMembers: { 
+        type: Number,
+        default: 1
     },
-    total_members : {
-        type : DataTypes.INTEGER,
-        allowNull : true,
-        defaultValue : 1
-    },
-    admins : {
-        type : DataTypes.JSON,
-        allowNull : true
+    admins: {
+        type: Array,
+        default: []
     }
-});
+}, { timestamps: true });
+
+const Chat = mongoose.model('Chat', chatSchema);
+
+module.exports = Chat;
