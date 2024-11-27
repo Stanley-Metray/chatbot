@@ -49,7 +49,7 @@ routerConfig.config(app);
 
 (async () => {
     await connect();
-    server.listen(3500, (err) => {
+    server.listen(3500 || process.env.PORT, (err) => {
         if (err) return console.log(err);
 
         console.log("Server started on port 3500...");
