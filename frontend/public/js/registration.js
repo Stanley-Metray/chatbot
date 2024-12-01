@@ -2,7 +2,7 @@ document.getElementById('registration-form').addEventListener('submit', async (e
     e.preventDefault();
 
     try {
-        if (e.target.password.value !== e.target.confirm_password.value)
+        if (e.target.password.value !== e.target.confirmPassword.value)
             setMessage("Both passwords must be same", "alert alert-danger d-block mt-3");
         else {
             const response = await axios.post('/register', new FormData(e.target), {
